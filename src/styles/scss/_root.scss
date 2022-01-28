@@ -1,0 +1,39 @@
+$font-size: 10px;
+$main-font: 'Russo One', sans-serif;
+$border-radius: 4px;
+$background-base: lighten(grey, 5%);
+$container-color: lighten(gray, 20%);
+
+:root {
+  --font-size: #{$font-size};
+  --main-font: #{$main-font};
+  --border-radius: #{$border-radius};
+  --background-base: #{$background-base};
+  --container-color: #{$container-color};
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--font-size);
+
+  @media screen and (max-width: 1200px) {
+    font-size: 60%;
+  }
+
+  @media screen and (max-width: 980px) {
+    font-size: 58%;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 55%;
+  }
+}
+
+body {
+  font: 1.6rem/1.4 normal var(--main-font);
+  background: var(--background-base);
+  margin: 0;
+}

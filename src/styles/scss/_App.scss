@@ -1,0 +1,14 @@
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.drum-machine {
+  width: 60rem;
+  height: 30rem;
+  border: 5px solid orange;
+  background: var(--container-color);
+  border-radius: var(--border-radius);
+}

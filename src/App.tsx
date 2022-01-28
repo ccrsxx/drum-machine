@@ -1,8 +1,21 @@
 import { Component } from 'react';
-import './App.scss';
+import { DrumPad } from './components';
 
-class App extends Component {
+class DrumMachine extends Component {
+  constructor(props: {}) {
+    super(props);
+  }
 
+  render() {
+    return (
+      <div className='App'>
+        <div id='drum-machine' className='drum-machine'>
+          <DrumPad />
+          <div className='control-container'></div>
+        </div>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default DrumMachine;

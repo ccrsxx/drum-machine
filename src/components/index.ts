@@ -1,0 +1,1 @@
+export { DrumPad } from './DrumPad';

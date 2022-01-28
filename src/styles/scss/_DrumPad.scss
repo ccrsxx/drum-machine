@@ -1,0 +1,28 @@
+.drum-pad-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .drum-pad-row {
+    &:first-child {
+      margin-left: 2rem;
+    }
+
+    &:nth-child(2) > .drum-pad {
+      margin: 0.7rem 0.35rem;
+    }
+
+    .drum-pad {
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0.7rem;
+      height: 100%;
+      width: 8rem;
+      height: 7rem;
+      background: gray;
+      border-radius: var(--border-radius);
+    }
+  }
+}
