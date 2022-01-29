@@ -60,14 +60,16 @@ class DrumPad extends Component<DrumPadProps, DrumPadStates> {
   }
 
   playAudio() {
-    const audio = document.getElementById(
-      this.props.keyTrigger
-    ) as HTMLAudioElement;
-    audio.currentTime = 0;
-    audio.play();
-    this.activatePad();
-    setTimeout(() => this.activatePad(), 100);
-    this.props.updateDisplay(this.props.audioId.replace(/-/g, ' '));
+    if (this.props.power) {
+      const audio = document.getElementById(
+        this.props.keyTrigger
+      ) as HTMLAudioElement;
+      audio.currentTime = 0;
+      audio.play();
+      this.activatePad();
+      setTimeout(() => this.activatePad(), 100);
+      this.props.updateDisplay(this.props.audioId.replace(/-/g, ' '));
+    }
   }
 
   render() {
@@ -78,7 +80,7 @@ class DrumPad extends Component<DrumPadProps, DrumPadStates> {
         onClick={this.playAudio}
       >
         <audio
-          className='audio'
+          className='clip'
           id={this.props.keyTrigger}
           src={this.props.audioSource}
         ></audio>

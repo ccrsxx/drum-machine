@@ -24,6 +24,7 @@ class App extends Component<{}, AppStates> {
     this.selectKit = this.selectKit.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
     this.clearDisplay = this.clearDisplay.bind(this);
+    this.adjustVolume = this.adjustVolume.bind(this);
   }
 
   togglePower() {
@@ -47,8 +48,13 @@ class App extends Component<{}, AppStates> {
   }
 
   adjustVolume(volume: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ sliderValue: Number(volume.target.value) });
-    setTimeout(this.clearDisplay, 1000);
+    if (this.state.power) {
+      this.setState({
+        sliderValue: volume.target.valueAsNumber,
+        display: `Volume: ${Math.round(volume.target.valueAsNumber * 100)}`
+      });
+      setTimeout(() => this.clearDisplay(), 1000);
+    }
   }
 
   updateDisplay(name: string) {
@@ -60,7 +66,11 @@ class App extends Component<{}, AppStates> {
   }
 
   render() {
-    console.log(this.state);
+    [
+      ...(document.getElementsByClassName(
+        'clip'
+      ) as HTMLCollectionOf<HTMLAudioElement>)
+    ].forEach((audio) => (audio.volume = this.state.sliderValue));
 
     return (
       <div className='App'>
@@ -72,10 +82,11 @@ class App extends Component<{}, AppStates> {
           />
           <Control
             power={this.state.power}
+            currentVolume={this.state.sliderValue}
+            currentDisplay={this.state.display}
             togglePower={this.togglePower}
             selectKit={this.selectKit}
             adjustVolume={this.adjustVolume}
-            currentDisplay={this.state.display}
             updateDisplay={this.updateDisplay}
             clearDisplay={this.clearDisplay}
           />

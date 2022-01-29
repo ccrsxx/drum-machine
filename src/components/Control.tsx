@@ -5,9 +5,10 @@ import { faLaptopCode } from '@fortawesome/free-solid-svg-icons';
 // make an interface for Control component from the App.tsx
 interface ControlProps {
   power: boolean;
+  currentDisplay: null | string;
+  currentVolume: number;
   togglePower: () => void;
   selectKit: () => void;
-  currentDisplay: null | string;
   updateDisplay: (name: string) => void;
   clearDisplay: () => void;
   adjustVolume: (volume: React.ChangeEvent<HTMLInputElement>) => void;
@@ -37,6 +38,16 @@ export class Control extends Component<ControlProps> {
         </fieldset>
         <div className='display-container'>
           <div className='display'>{this.props.currentDisplay}</div>
+        </div>
+        <div className='slider-container'>
+          <input
+            type='range'
+            min={0}
+            max={1}
+            step={0.01}
+            value={this.props.currentVolume}
+            onChange={this.props.adjustVolume}
+          />
         </div>
       </div>
     );
