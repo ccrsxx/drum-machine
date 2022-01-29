@@ -2,7 +2,7 @@ export const activeStyle = {
   height: '6.7rem',
   backgroundColor: 'orange',
   boxShadow: '0 3px orange',
-  marginTop: 'calc(0.7rem + (7rem - 6.7rem))'
+  marginTop: '1rem'
 };
 
 export const inactiveStyle = {

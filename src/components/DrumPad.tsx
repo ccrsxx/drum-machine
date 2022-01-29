@@ -14,7 +14,7 @@ interface PadBankProps {
 
 interface DrumPadProps {
   power: boolean;
-  updateDisplay: (name: string) => void;
+  updateDisplay: PadBankProps['updateDisplay'];
   keyCode: number;
   keyTrigger: string;
   audioId: string;
@@ -48,7 +48,7 @@ class DrumPad extends Component<DrumPadProps, DrumPadStates> {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  handleKeyDown(input: { keyCode: number }) {
+  handleKeyDown(input: KeyboardEvent) {
     input.keyCode === this.props.keyCode && this.playAudio();
   }
 
@@ -67,6 +67,7 @@ class DrumPad extends Component<DrumPadProps, DrumPadStates> {
     audio.play();
     this.activatePad();
     setTimeout(() => this.activatePad(), 100);
+    this.props.updateDisplay(this.props.audioId.replace(/-/g, ' '));
   }
 
   render() {

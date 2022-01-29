@@ -1,5 +1,5 @@
 body {
-  font: 1.6rem/1.4 normal var(--main-font);
+  font: normal 1.6rem var(--main-font);
   background: var(--background-base);
   margin: 0;
 }
@@ -12,6 +12,7 @@ body {
 }
 
 .drum-machine {
+  position: relative;
   display: flex;
   width: 60rem;
   height: 32rem;
