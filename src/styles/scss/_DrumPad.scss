@@ -1,28 +1,35 @@
 .drum-pad-container {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   height: 100%;
 
   .drum-pad-row {
-    &:first-child {
-      margin-left: 2rem;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 3rem;
 
-    &:nth-child(2) > .drum-pad {
+    .drum-pad:nth-child(2) {
       margin: 0.7rem 0.35rem;
     }
 
     .drum-pad {
-      font-weight: bold;
+      cursor: pointer;
       display: flex;
       justify-content: center;
       align-items: center;
+      font-weight: bold;
       margin: 0.7rem;
-      height: 100%;
       width: 8rem;
       height: 7rem;
       background: gray;
       border-radius: var(--border-radius);
+      transition: all 150ms ease-out;
+
+      &:hover {
+        filter: brightness(1.1);
+      }
     }
   }
 }

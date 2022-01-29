@@ -1,1 +1,2 @@
-export { DrumPad } from './DrumPad';
+export * from './DrumPad';
+export * from './Control';
