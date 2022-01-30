@@ -1,55 +1,70 @@
-import { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLaptopCode } from '@fortawesome/free-solid-svg-icons';
 
-// make an interface for Control component from the App.tsx
 interface ControlProps {
   power: boolean;
   currentDisplay: null | string;
   currentVolume: number;
+  currentPadKitId: string;
   togglePower: () => void;
   selectKit: () => void;
-  updateDisplay: (name: string) => void;
-  clearDisplay: () => void;
   adjustVolume: (volume: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export class Control extends Component<ControlProps> {
-  constructor(props: ControlProps) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className='control-container'>
-        <div className='logo-container'>
-          <FontAwesomeIcon icon={faLaptopCode} className='logo' /> ccrsxx
-        </div>
-        <fieldset>
-          <legend className='switch-title'>Power</legend>
-          <label className='switch'>
-            <input
-              type='checkbox'
-              defaultChecked={this.props.power}
-              onChange={this.props.togglePower}
-            />
-            <span className='slider'></span>
-          </label>
-        </fieldset>
-        <div className='display-container'>
-          <div className='display'>{this.props.currentDisplay}</div>
-        </div>
-        <div className='slider-container'>
+export const Control = (props: ControlProps) => (
+  <div className='control-container'>
+    <div className='logo-container'>
+      <FontAwesomeIcon icon={faLaptopCode} className='logo' /> ccrsxx
+    </div>
+    <fieldset className='power-container'>
+      <legend className='switch-title'>Power</legend>
+      <label className='switch'>
+        <input
+          type='checkbox'
+          defaultChecked={props.power}
+          onChange={props.togglePower}
+        />
+        <span className='slider'></span>
+      </label>
+    </fieldset>
+    <div
+      style={props.power ? {} : { backgroundColor: 'gray' }}
+      className='display-container'
+    >
+      <div className='display'>{props.currentDisplay}</div>
+    </div>
+    <div className='slider-container'>
+      <input
+        style={props.power ? {} : { backgroundColor: 'gray' }}
+        className='slider'
+        type='range'
+        min={0}
+        max={1}
+        step={0.01}
+        value={props.currentVolume}
+        onChange={props.adjustVolume}
+      />
+    </div>
+    <div className='kit-container'>
+      <fieldset>
+        <legend className='switch-title'>Heater</legend>
+        <legend className='switch-title'>Kit</legend>
+        <label className='switch'>
           <input
-            type='range'
-            min={0}
-            max={1}
-            step={0.01}
-            value={this.props.currentVolume}
-            onChange={this.props.adjustVolume}
+            type='checkbox'
+            defaultChecked={
+              props.currentPadKitId === 'Heater Kit' ? false : true
+            }
+            onChange={props.selectKit}
+            disabled={!props.power}
           />
-        </div>
-      </div>
-    );
-  }
-}
+          <span
+            style={props.power ? {} : { backgroundColor: 'gray' }}
+            className='slider'
+          ></span>
+        </label>
+        <legend className='switch-title'>Piano</legend>
+      </fieldset>
+    </div>
+  </div>
+);

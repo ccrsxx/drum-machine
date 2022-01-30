@@ -1,9 +1,9 @@
 import { Component } from 'react';
-import { activeStyle, inactiveStyle } from '../common';
+import { activeStyle, offActiveStyle, inactiveStyle } from '../common';
 
 interface PadBankProps {
   power: boolean;
-  currentPadBank: {
+  currentPadKit: {
     keyCode: number;
     keyTrigger: string;
     id: string;
@@ -53,23 +53,27 @@ class DrumPad extends Component<DrumPadProps, DrumPadStates> {
   }
 
   activatePad() {
-    this.props.power &&
-      this.setState((state) => ({
-        padStyle: state.padStyle === inactiveStyle ? activeStyle : inactiveStyle
-      }));
+    this.setState((state) => ({
+      padStyle:
+        state.padStyle !== offActiveStyle && !this.props.power
+          ? offActiveStyle
+          : state.padStyle === inactiveStyle
+          ? activeStyle
+          : inactiveStyle
+    }));
   }
 
   playAudio() {
+    this.activatePad();
     if (this.props.power) {
       const audio = document.getElementById(
         this.props.keyTrigger
       ) as HTMLAudioElement;
       audio.currentTime = 0;
       audio.play();
-      this.activatePad();
-      setTimeout(() => this.activatePad(), 100);
       this.props.updateDisplay(this.props.audioId.replace(/-/g, ' '));
     }
+    setTimeout(() => this.activatePad(), 100);
   }
 
   render() {
@@ -92,7 +96,7 @@ class DrumPad extends Component<DrumPadProps, DrumPadStates> {
 
 export class PadBank extends Component<PadBankProps> {
   renderPad(
-    { keyCode, keyTrigger, id, url }: PadBankProps['currentPadBank'][0],
+    { keyCode, keyTrigger, id, url }: PadBankProps['currentPadKit'][0],
     key: number
   ) {
     return (
@@ -114,7 +118,7 @@ export class PadBank extends Component<PadBankProps> {
         {[...Array(3)].map((_, i) => (
           <div className='drum-pad-row' key={i}>
             {[...Array(3)].map((_, j) =>
-              this.renderPad(this.props.currentPadBank[i * 3 + j], i * 3 + j)
+              this.renderPad(this.props.currentPadKit[i * 3 + j], i * 3 + j)
             )}
           </div>
         ))}

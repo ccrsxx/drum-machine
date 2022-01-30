@@ -5,7 +5,7 @@ import { heaterKit, pianoKit } from './common';
 interface AppStates {
   power: boolean;
   display: null | string;
-  currentpadKit: typeof heaterKit;
+  currentPadKit: typeof heaterKit;
   currentPadKitId: 'Heater Kit' | 'Smooth Piano Kit';
   sliderValue: number;
 }
@@ -16,33 +16,45 @@ class App extends Component<{}, AppStates> {
     this.state = {
       power: true,
       display: null,
-      currentpadKit: heaterKit,
+      currentPadKit: heaterKit,
       currentPadKitId: 'Heater Kit',
-      sliderValue: 0.3
+      sliderValue: 0.6
     };
     this.togglePower = this.togglePower.bind(this);
-    this.selectKit = this.selectKit.bind(this);
+    this.toggleKit = this.toggleKit.bind(this);
+    this.adjustVolume = this.adjustVolume.bind(this);
     this.updateDisplay = this.updateDisplay.bind(this);
     this.clearDisplay = this.clearDisplay.bind(this);
-    this.adjustVolume = this.adjustVolume.bind(this);
+  }
+
+  componentDidUpdate() {
+    [
+      ...(document.getElementsByClassName(
+        'clip'
+      ) as HTMLCollectionOf<HTMLAudioElement>)
+    ].forEach((audio) => (audio.volume = this.state.sliderValue));
   }
 
   togglePower() {
     this.setState((state) => ({
-      power: !state.power
+      power: !state.power,
+      display: state.power ? 'Power Off' : 'Power On'
     }));
+    setTimeout(() => {
+      this.clearDisplay();
+    }, 2000);
   }
 
-  selectKit() {
+  toggleKit() {
     this.state.power && this.state.currentPadKitId === 'Heater Kit'
       ? this.setState({
           display: 'Smooth Piano Kit',
-          currentpadKit: pianoKit,
+          currentPadKit: pianoKit,
           currentPadKitId: 'Smooth Piano Kit'
         })
       : this.setState({
           display: 'Heater Kit',
-          currentpadKit: heaterKit,
+          currentPadKit: heaterKit,
           currentPadKitId: 'Heater Kit'
         });
   }
@@ -53,7 +65,7 @@ class App extends Component<{}, AppStates> {
         sliderValue: volume.target.valueAsNumber,
         display: `Volume: ${Math.round(volume.target.valueAsNumber * 100)}`
       });
-      setTimeout(() => this.clearDisplay(), 1000);
+      setTimeout(() => this.clearDisplay(), 2000);
     }
   }
 
@@ -66,29 +78,26 @@ class App extends Component<{}, AppStates> {
   }
 
   render() {
-    [
-      ...(document.getElementsByClassName(
-        'clip'
-      ) as HTMLCollectionOf<HTMLAudioElement>)
-    ].forEach((audio) => (audio.volume = this.state.sliderValue));
-
     return (
       <div className='App'>
-        <div id='drum-machine' className='drum-machine'>
+        <div
+          id='drum-machine'
+          className={`drum-machine`}
+          style={this.state.power ? { borderColor: 'orange' } : {}}
+        >
           <PadBank
             power={this.state.power}
-            currentPadBank={this.state.currentpadKit}
+            currentPadKit={this.state.currentPadKit}
             updateDisplay={this.updateDisplay}
           />
           <Control
             power={this.state.power}
             currentVolume={this.state.sliderValue}
             currentDisplay={this.state.display}
+            currentPadKitId={this.state.currentPadKitId}
             togglePower={this.togglePower}
-            selectKit={this.selectKit}
+            selectKit={this.toggleKit}
             adjustVolume={this.adjustVolume}
-            updateDisplay={this.updateDisplay}
-            clearDisplay={this.clearDisplay}
           />
         </div>
       </div>

@@ -16,7 +16,16 @@ body {
   display: flex;
   width: 60rem;
   height: 32rem;
-  border: 5px solid orange;
+  border: 5px solid gray;
   background: var(--container-color);
   border-radius: var(--border-radius);
+  transition: border-color 200ms ease-out;
+
+  @media screen and (max-width: 560px) {
+    width: 40rem;
+    height: 60rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
