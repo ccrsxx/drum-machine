@@ -28,6 +28,7 @@ export const Control = (props: ControlProps) => (
       </label>
     </fieldset>
     <div
+      id='display'
       style={props.power ? {} : { backgroundColor: 'gray' }}
       className='display-container'
     >

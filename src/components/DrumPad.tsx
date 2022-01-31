@@ -79,13 +79,14 @@ class DrumPad extends Component<DrumPadProps, DrumPadStates> {
   render() {
     return (
       <div
+        id={this.props.audioId}
         className='drum-pad'
         style={this.state.padStyle}
         onClick={this.playAudio}
       >
         <audio
-          className='clip'
           id={this.props.keyTrigger}
+          className='clip'
           src={this.props.audioSource}
         ></audio>
         {this.props.keyTrigger}
